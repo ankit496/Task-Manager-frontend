@@ -9,6 +9,7 @@ const Signup = () => {
   let history = useNavigate()
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true)
     const response = await fetch("https://task-manager-fxzi.onrender.com/auth/signup", {
       method: 'POST',
       headers: {
@@ -17,6 +18,7 @@ const Signup = () => {
       body: JSON.stringify({ "username": username, "password": password })
     })
     const json = await response.json()
+    setLoading(false)
     if (json.success) {
       localStorage.setItem('token', json.token)
       history("/")
