@@ -10,7 +10,7 @@ const TaskUpdate = () => {
     const [status, setStatus] = useState('');
     useEffect( () => {
             const fetchDate=async()=>{
-            const response = await fetch(`/task/getById/${id}`, {
+            const response = await fetch(`https://task-manager-fxzi.onrender.com/task/getById/${id}`, {
                 method: "GET",
                 headers: {
                     "auth-token": localStorage.getItem('token')

@@ -8,7 +8,7 @@ const Signup = () => {
   const handleLogin = async(e) => {
     e.preventDefault();
     e.preventDefault()
-        const response=await fetch("/auth/signup",{
+        const response=await fetch("https://task-manager-fxzi.onrender.com/auth/signup",{
             method:'POST',
             headers:{
                 "Content-type":"Application/json"
