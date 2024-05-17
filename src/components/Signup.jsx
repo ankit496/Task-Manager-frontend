@@ -27,7 +27,7 @@ const Signup = () => {
       setError(json.message)
       setTimeout(()=>(
         setError('')
-      ),2000)
+      ),5000)
     }
   };
 
