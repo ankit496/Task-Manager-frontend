@@ -24,7 +24,10 @@ const Signup = () => {
       history("/")
     }
     else {
-      setError('Invalid Password')
+      setError(json.message)
+      setTimeout(()=>(
+        setError('')
+      ),2000)
     }
   };
 
@@ -90,6 +93,9 @@ const Signup = () => {
               )}>Login</a>
             </div>
           </div>
+          {error && <div className='text-red-600 font-bold'>
+              !!Invalid Credentials
+            </div>}
         </form>
       </div>}
     </div>
