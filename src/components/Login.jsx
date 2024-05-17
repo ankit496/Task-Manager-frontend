@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import { Circles } from 'react-loader-spinner';
 import { useNavigate } from 'react-router-dom';
 const Login = () => {
   const [username, setUsername] = useState('');
+  const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('')
   let history = useNavigate()
   const handleLogin = async (e) => {
     e.preventDefault();
-
+    setLoading(true)
     const response = await fetch("https://task-manager-fxzi.onrender.com/auth/login", {
       method: 'POST',
       headers: {
@@ -16,19 +18,34 @@ const Login = () => {
       body: JSON.stringify({ "username": username, "password": password })
     })
     const json = await response.json()
+    setLoading(false);
     if (json.success) {
       localStorage.setItem('token', json.token)
-
       history("/")
     }
     else {
       setError('Invalid Password')
+      setTimeout(()=>(
+        setError('')
+      ),2000)
     }
   };
-
+  
   return (
     <div className='bg-gradient-to-r from-blue-600 to-black w-full h-screen'>
-      <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+
+      {loading && <div className="flex justify-center align-items-center p-8">
+        <Circles
+          height="80"
+          width="80"
+          color="#4fa94d"
+          ariaLabel="circles-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>}
+      {!loading && <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>
             <h2 className="mt-6 text-center text-3xl font-semibold text-white">
@@ -82,7 +99,7 @@ const Login = () => {
             </div>}
           </form>
         </div>
-      </div>
+      </div>}
     </div>
   );
 };

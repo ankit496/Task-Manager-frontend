@@ -3,8 +3,9 @@ import TaskContext from "./TaskContext";
 const TaskState = (props) => {
   const initialTasks = []
   const [tasks, setTasks] = useState(initialTasks)
-
+  const [loading,setLoading]=useState(false);
   const getTasks=async()=>{
+    setLoading(true)
     const response = await fetch(`https://task-manager-fxzi.onrender.com/task/getTask`, {
       method: "GET",
       headers: {
@@ -13,11 +14,13 @@ const TaskState = (props) => {
     });
     const json=await response.json();
     setTasks(json)
+    setLoading(false)
   }
 
 
   const addTask = async (title, description,status,date) => {
     //to api call
+    setLoading(true)
     const response = await fetch(`https://task-manager-fxzi.onrender.com/task/addTask`, {
       method: "POST",
       headers: {
@@ -37,10 +40,12 @@ const TaskState = (props) => {
     }
 
     setTasks(tasks.concat(newTask))
+    setLoading(false)
   }
 
   const deleteTask = async (id) => {
     //API Call
+    setLoading(true)
     await fetch(`https://task-manager-fxzi.onrender.com/task/deleteTask/${id}`, {
       method: "DELETE",
       headers: {
@@ -49,6 +54,7 @@ const TaskState = (props) => {
     });
     const newTask = tasks.filter((task) => { return task._id !== id })
     setTasks(newTask)
+    setLoading(false)
   }
 
 
@@ -76,7 +82,7 @@ const TaskState = (props) => {
   }
 
   return (
-    <TaskContext.Provider value={{ tasks, addTask, deleteTask, updateTask,getTasks }}>
+    <TaskContext.Provider value={{loading, tasks, addTask, deleteTask, updateTask,getTasks }}>
       {props.children}
     </TaskContext.Provider>
   )

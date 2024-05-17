@@ -65,9 +65,16 @@ const AddTask = () => {
                     <option value="Done">Done</option>
                 </select>
             </div>
+            <div className='flex justify-between'>
             <button type="submit" className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
                 Add Task
             </button>
+            <button className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600" onClick={()=>(
+                navigate("/")
+            )}>
+                Cancel
+            </button>
+            </div>
         </form>
         </div>
     );

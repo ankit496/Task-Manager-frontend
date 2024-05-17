@@ -2,14 +2,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 import TaskContext from '../context/TaskContext';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Circles } from 'react-loader-spinner'
 const TaskUpdate = () => {
-    let {id}=useParams()
+    let { id } = useParams()
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [dueDate, setDueDate] = useState('');
     const [status, setStatus] = useState('');
-    useEffect( () => {
-            const fetchDate=async()=>{
+    const [loading, setLoading] = useState(false);
+    useEffect(() => {
+        const fetchDate = async () => {
+            setLoading(true)
             const response = await fetch(`https://task-manager-fxzi.onrender.com/task/getById/${id}`, {
                 method: "GET",
                 headers: {
@@ -22,6 +25,7 @@ const TaskUpdate = () => {
             const datePart = json.due_date.split('T')[0];
             setDueDate(datePart)
             setStatus(json.status)
+            setLoading(false)
         }
         fetchDate();
     }, [id])
@@ -40,7 +44,18 @@ const TaskUpdate = () => {
 
     return (
         <div className='bg-gradient-to-r from-blue-600 to-black w-full h-screen'>
-            <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-4 bg-white rounded shadow-md">
+            <div className="flex justify-center align-items-center p-8">
+                {loading && <Circles
+                    height="80"
+                    width="80"
+                    color="#4fa94d"
+                    ariaLabel="circles-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                />}
+            </div>
+            {!loading && <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-4 bg-white rounded shadow-md">
                 <h2 className="text-xl font-bold mb-4">Edit Task</h2>
                 <div className="mb-4">
                     <label className="block text-gray-700">Title</label>
@@ -83,10 +98,17 @@ const TaskUpdate = () => {
                         <option value="Done">Done</option>
                     </select>
                 </div>
-                <button type="submit" className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
-                    Edit Task
-                </button>
-            </form>
+                <div className='flex justify-between'>
+                    <button type="submit" className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+                        Edit Task
+                    </button>
+                    <button className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600" onClick={() => (
+                        navigate("/")
+                    )}>
+                        Cancel
+                    </button>
+                </div>
+            </form>}
         </div>
     );
 };
