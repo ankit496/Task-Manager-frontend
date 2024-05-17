@@ -5,7 +5,7 @@ const TaskState = (props) => {
   const [tasks, setTasks] = useState(initialTasks)
 
   const getTasks=async()=>{
-    const response = await fetch(`https://task-manager-fxzi.onrender.com/task/getTask`, {
+    const response = await fetch(`/task/getTask`, {
       method: "GET",
       headers: {
         "auth-token": localStorage.getItem('token')
@@ -18,7 +18,7 @@ const TaskState = (props) => {
 
   const addTask = async (title, description,status,date) => {
     //to api call
-    const response = await fetch(`https://task-manager-fxzi.onrender.com/task/addTask`, {
+    const response = await fetch(`/task/addTask`, {
       method: "POST",
       headers: {
         "Content-type":"Application/json",
@@ -41,7 +41,7 @@ const TaskState = (props) => {
 
   const deleteTask = async (id) => {
     //API Call
-    await fetch(`https://task-manager-fxzi.onrender.com/task/deleteTask/${id}`, {
+    await fetch(`/task/deleteTask/${id}`, {
       method: "DELETE",
       headers: {
         "auth-token": localStorage.getItem('token')
@@ -54,7 +54,7 @@ const TaskState = (props) => {
 
   const updateTask = async (id, title, description, date,status) => {
     //API call
-    await fetch(`https://task-manager-fxzi.onrender.com/task/updateTask/${id}`, {
+    await fetch(`/task/updateTask/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
